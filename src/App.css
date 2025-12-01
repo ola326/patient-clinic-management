@@ -33,10 +33,205 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
-
 .read-the-docs {
   color: #888;
+}
+
+/* container for the three cards */
+.forms-row {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 24px 0;
+}
+
+/* the card */
+.form-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  width: 320px;              /* adjust as needed */
+  display: flex;
+  flex-direction: column;    /* lets body grow and footer stick */
+  min-height: 460px;         /* uniform height for all cards */
+  padding: 20px;
+}
+
+/* make form body fill available vertical space */
+.form-card .form-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: auto;
+}
+
+/* submit button area pinned to bottom */
+.form-card .form-footer {
+  margin-top: 12px;
+}
+
+/* if your submit button width is full */
+.button-full {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: #6026d6; color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* ---- Tabs layout: align with the three form cards and spread equally ---- */
+/* Container that limits tabs to the same width as the 3 form cards */
+.lists-tabs {
+  /* card width(320px) × 3 + gap(28px) × 2 = total forms width.
+     If you change card width or gap, update this calc. */
+  width: calc(320px * 3 + 28px * 2);
+  margin: 18px auto 0;     /* center under the forms row */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+
+/* header row: distribute buttons evenly */
+.tab-headers {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between; /* space buttons across the full width */
+}
+
+/* make each tab share the space equally */
+.tab-headers button {
+  flex: 1 1 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 600;
+  color: #444;
+  /* remove underlines / focus outlines that look like a black bar */
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+  transition: background 150ms, border-color 150ms, color 150ms;
+}
+
+/* spacing inside so adjcent buttons don't touch */
+.tab-headers button + button { margin-left: 8px; }
+
+/* active tab styling — black underline look by using bottom border */
+.tab-headers button.active {
+  background: #f8f5ff;
+  border-color: #b89af8;
+  color: #111;                       /* stronger text color */
+  box-shadow: none;
+  /* create a visible black underline */
+  border-bottom: 3px solid #000;
+  border-radius: 8px 8px 6px 6px;    /* make bottom border visible but not weird */
+}
+
+/* focus styling for keyboard accessibility */
+.tab-headers button:focus {
+  outline: 3px solid #e6dafc;
+  outline-offset: 2px;
+}
+
+/* tab content (list area) should stretch to same width too */
+.tab-content {
+  width: 100%;
+  padding: 8px 6px;
+  max-height: 160px;
+  overflow-y: auto;
+  background: transparent;
+  text-align: left;
+}
+
+/* === Tabs / Lists layout (keep this single block) ===
+   Align the tabs to the combined width of the three form-cards and
+   make the buttons share space equally.
+*/
+.lists-panel-wrapper {
+  max-width: calc(340px * 3 + 28px * 2); /* match your card width & gap */
+  margin: 18px auto 36px;
+  padding: 0 12px;
+}
+
+.lists-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+
+/* header row: distribute buttons evenly across the width */
+.tab-headers {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+/* each tab takes equal space */
+.tab-headers button {
+  flex: 1 1 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 600;
+  color: #111;        /* make label text black */
+  outline: none;
+}
+
+/* small spacing so adjacent buttons don't touch */
+.tab-headers button + button { margin-left: 8px; }
+
+/* active tab: visible black underline and stronger text */
+.tab-headers button.active {
+  background: #fff;
+  border-color: #222;
+  color: #000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  border-bottom: 3px solid #000;   /* visible black underline */
+  border-radius: 8px 8px 6px 6px;
+}
+
+/* list content box that appears below the tabs */
+.tab-content {
+  margin-top: 12px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+  min-height: 140px;
+  text-align: left;
+}
+
+/* Make small action buttons (delete, complete, edit) readable */
+.small-btn,
+.list-action-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  color: #000;        /* ensure the text is black */
+}
+
+/* hover for small buttons */
+.small-btn:hover,
+.list-action-btn:hover {
+  background: #f7f5ff;
+}
+
+/* keep form-body filling space */
+.form-card .form-body {
+  flex: 1 1 auto;
 }
