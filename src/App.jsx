@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import PatientForm from './components/PatientForm';
@@ -6,6 +7,7 @@ import ClinicForm from './components/ClinicForm';
 import ClinicList from './components/ClinicList';
 import AppointmentForm from './components/AppointmentForm';
 import AppointmentList from './components/AppointmentList';
+import ListsTabs from './components/ListsTabs';
 import './App.css';
 
 export default function App() {
@@ -19,7 +21,6 @@ export default function App() {
   }
   function deletePatient(id) {
     setPatients(prev => prev.filter(x => x.id !== id));
-    // also remove appointments for that patient
     setAppointments(prev => prev.filter(a => a.patientId !== id));
   }
 
@@ -50,23 +51,41 @@ export default function App() {
         <p className="muted">Add patients, clinics, and schedule appointments (persisted to localStorage).</p>
       </header>
 
-      <main className="container">
-        <section className="card">
-          <PatientForm onAdd={addPatient} />
-          <PatientList patients={patients} onDelete={deletePatient} />
+      <main className="forms-row">
+        <section className="form-card">
+          <div className="form-body">
+            <PatientForm onAdd={addPatient} />
+          </div>
+          <div className="form-footer" />
         </section>
 
-        <section className="card">
-          <ClinicForm onAdd={addClinic} />
-          <ClinicList clinics={clinics} onDelete={deleteClinic} />
+        <section className="form-card">
+          <div className="form-body">
+            <ClinicForm onAdd={addClinic} />
+          </div>
+          <div className="form-footer" />
         </section>
 
-        <section className="card">
-          <AppointmentForm patients={patients} clinics={clinics} onAdd={addAppointment} />
-          <AppointmentList appointments={appointments} patients={patients} clinics={clinics}
-            onUpdateStatus={updateAppointmentStatus} onDelete={deleteAppointment} />
+        <section className="form-card">
+          <div className="form-body">
+            <AppointmentForm patients={patients} clinics={clinics} onAdd={addAppointment} />
+          </div>
+          <div className="form-footer" />
         </section>
       </main>
+
+      {/* lists panel (shared) */}
+      <div className="lists-panel-wrapper">
+        <ListsTabs
+          patients={patients}
+          clinics={clinics}
+          appointments={appointments}
+          onDeletePatient={deletePatient}
+          onDeleteClinic={deleteClinic}
+          onDeleteAppointment={deleteAppointment}
+          onUpdateAppointmentStatus={updateAppointmentStatus}
+        />
+      </div>
 
       <footer className="footer">
         <small>Developed by Olamide — eHA Project</small>

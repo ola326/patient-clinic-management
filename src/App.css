@@ -235,3 +235,34 @@
 .form-card .form-body {
   flex: 1 1 auto;
 }
+
+/* Completed appointments appear greyed-out & crossed out */
+.appointment-item.completed .appt-main {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.appointment-item.completed .appt-meta {
+  color: #bbb;
+}
+
+.appointment-item.completed {
+  opacity: 0.6;
+  background: #f7f7f7;
+  border-radius: 6px;
+}
+
+/* Action buttons for completed items still visible */
+.appointment-item.completed .list-action-btn {
+  color: #000;
+  border-color: #bbb;
+}
+
+.done-badge {
+  background: #d9f7d9;
+  color: #067306;
+  padding: 3px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
