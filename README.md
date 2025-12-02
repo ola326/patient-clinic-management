@@ -14,8 +14,8 @@ This project demonstrates controlled React forms, validation and local data pers
 
 ```bash
 # clone (if you haven't)
-git clone https://github.com/ola326/course-registration-form.git
-cd course-registration-form
+git clone https://github.com/ola326/patient-clinic-management.git
+cd patient-clinic-management
 
 # install deps
 npm install
