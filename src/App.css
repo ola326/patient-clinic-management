@@ -1,44 +1,46 @@
-/* src/App.css — CLEANED & CONSOLIDATED
-   Replace your existing App.css with this file.
-   - Single source-of-truth variables for card sizing
-   - Consistent card layout (flex) so submit buttons align
-   - Tabs/lists width derived from same variables
-   - Utility classes for form grids / spacing
-*/
+/* ===========================
+   Responsive, final App.css
+   - responsive grid for forms (1..3 columns)
+   - buttons stay aligned
+   - lists/tabs match grid width
+   - accessible focus states
+   =========================== */
 
-/* ---- Design tokens / layout variables ---- */
+/* Design tokens */
 :root{
   --page-max-width: 1280px;
-  --card-width: 340px;
-  --card-gap: 28px;
-  --card-min-height: 460px;
+  --page-pad: 2rem;
   --accent: #6026d6;
   --muted: #888;
+  --bg: #f4f6f8;
   --card-bg: #fff;
-  --page-bg: #f4f6f8;
+  --radius: 8px;
   --shadow-1: 0 6px 18px rgba(0,0,0,0.06);
   --shadow-soft: 0 4px 14px rgba(0,0,0,0.03);
-  --radius-lg: 8px;
+
+  /* minimum and preferred card widths for grid */
+  --card-min: 260px;
+  --card-preferred: 340px;
+  --card-gap: 28px;
 }
 
-/* ---- Page wrapper / header ---- */
-:root, html, body {
+/* Base */
+html, body {
   margin: 0;
   padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: var(--page-bg);
+  background: var(--bg);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #111;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
 #root {
   max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: var(--page-pad);
+  box-sizing: border-box;
 }
 
+/* Header */
 .app-header h1 {
   color: var(--accent);
   margin: 0 0 4px 0;
@@ -52,39 +54,48 @@
   font-size: 14px;
 }
 
-/* Each card */
-.form-card {
-  background: var(--card-bg);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-1);
-  width: var(--card-width) !important;
-  display: flex;
-  flex-direction: column;
-  min-height: var(--card-min-height);
-  padding: 20px;
+/* ===== Responsive grid for the three cards =====
+   The grid auto-fits as many cards as possible between min and max widths.
+   This keeps layout flexible on smaller screens.
+*/
+.forms-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-min), 1fr));
+  gap: var(--card-gap);
+  justify-items: center; /* center narrow cards */
+  margin: 24px auto;
+  width: 100%;
+  max-width: calc(var(--card-preferred) * 3 + var(--card-gap) * 2); /* limits stretch on very wide screens */
   box-sizing: border-box;
 }
 
-/* Fills available card space and controls inner spacing */
+/* Card */
+.form-card {
+  width: 100%;
+  max-width: var(--card-preferred);
+  min-height: 440px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  padding: 20px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card body fills available space */
 .form-card .form-body {
-  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 18px;
+  padding: 12px 0; /* controls top and bottom inner white-space */
+  flex: 1 1 auto;
   box-sizing: border-box;
   overflow: auto;
 }
 
-/* Footer area of card (keeps footer pinned if used) */
-.form-card .form-footer {
-  margin-top: 12px;
-}
-
-/* ---- Forms & inputs ----
-   Make <form> and the common wrapper behave as vertical flex columns
-   so the submit button can be pushed to the bottom with margin-top:auto.
-*/
+/* Make the <form> stretch so the submit button can be pushed down */
 .form-card .form-body form {
   display: flex;
   flex-direction: column;
@@ -94,9 +105,8 @@
   box-sizing: border-box;
 }
 
-/* Some forms use a nested <div> to wrap inputs — make it flex column too */
-.form-card .form-body form > div,
-.form-card .form-body form > .form-grid {
+/* If you have an inner wrapper div in form, make it flex column too */
+.form-card .form-body form > div {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -104,25 +114,19 @@
   box-sizing: border-box;
 }
 
-/* Utility grid (if you prefer grid for certain forms) */
-.form-grid {
-  display: grid;
-  gap: 8px;
-}
-
-/* Inputs, selects, and textareas */
+/* Inputs and selects */
 .form-card input,
 .form-card select,
 .form-card textarea {
   padding: 10px 12px;
-  border: 1px solid #e6e6ea;
   border-radius: 6px;
+  border: 1px solid #e6e6ea;
   font-size: 14px;
-  background: #fff;
   box-sizing: border-box;
+  background: #fff;
 }
 
-/* Submit button style and alignment */
+/* Submit button - full width and consistent */
 .submit-btn {
   background: var(--accent);
   color: #fff;
@@ -131,22 +135,42 @@
   padding: 12px;
   font-size: 15px;
   cursor: pointer;
-  display: block;
   width: 100%;
   align-self: stretch;
 }
 
-/* Ensure the submit button is pushed to the bottom of the form area */
+/* This pushes the submit button to the bottom of the form body so they align horizontally */
 .form-card .form-body .submit-btn {
-  margin-top: auto;    /* pushes the button down so all buttons align */
-  margin-bottom: 6px;  /* small breathing space */
+  margin-top: auto;
+  margin-bottom: 6px;
 }
 
-/* Tab header row */
+/* ===== Lists / Tabs area - match the max width of the forms grid =====
+   On wide screens the lists area will be centered and match the three-card grid width.
+   On small screens it will be full width.
+*/
+.lists-panel-wrapper {
+  width: 100%;
+  margin: 18px auto 36px;
+  box-sizing: border-box;
+  max-width: calc(var(--card-preferred) * 3 + var(--card-gap) * 2);
+  padding: 0;
+}
+
+/* lists container */
+.lists-tabs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  box-sizing: border-box;
+}
+
+/* tab headers */
 .tab-headers {
   display: flex;
   gap: 12px;
-  justify-content: space-between;
 }
 
 .tab-headers button {
@@ -156,49 +180,33 @@
   border: 1px solid #ddd;
   background: #fff;
   cursor: pointer;
-  text-align: center;
   font-weight: 600;
   color: #111;
   outline: none;
 }
 
-/* Active tab visual */
+/* active tab */
 .tab-headers button.active {
-  background: #fff;
   border-color: #222;
-  color: #000;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
   border-bottom: 3px solid #000;
   border-radius: 8px 8px 6px 6px;
+  box-shadow: var(--shadow-soft);
 }
 
-/* Content area that appears under the tabs */
+/* tab content area */
 .tab-content {
-  margin-top: 12px;
+  width: 100%;
   background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 10px;
+  border-radius: var(--radius);
+  padding: 12px;
   box-shadow: var(--shadow-soft);
   min-height: 140px;
   text-align: left;
   box-sizing: border-box;
 }
 
-/* ---- Lists and items styling ---- */
-.lists-panel-wrapper .list-card {
-  background: #fff;
-  border-radius: 8px;
-  padding: 14px;
-  box-shadow: var(--shadow-soft);
-  margin-top: 12px;
-}
-
-/* patient/clinic list items */
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+/* lists */
+ul { list-style: none; margin: 0; padding: 0; }
 
 .patient-item,
 .clinic-item,
@@ -210,18 +218,10 @@ ul {
 }
 
 .patient-item strong,
-.clinic-item strong {
-  display: block;
-}
+.clinic-item strong { display:block; }
+.meta { font-size: 13px; color: #666; }
 
-.patient-item .meta,
-.clinic-item .meta,
-.appointment-item .meta {
-  font-size: 13px;
-  color: #666;
-}
-
-/* Completed appointment styles */
+/* completed appointment */
 .appointment-item.completed {
   opacity: 0.6;
   background: #f7f7f7;
@@ -229,16 +229,7 @@ ul {
   padding: 8px;
 }
 
-.done-badge {
-  background: #d9f7d9;
-  color: #067306;
-  padding: 3px 8px;
-  font-size: 12px;
-  border-radius: 4px;
-  margin-left: 8px;
-}
-
-/* Small action buttons */
+/* small action buttons */
 .small-btn,
 .list-action-btn {
   padding: 6px 10px;
@@ -249,89 +240,79 @@ ul {
   font-size: 13px;
   color: #000;
 }
-
 .small-btn:hover,
-.list-action-btn:hover {
-  background: #f7f5ff;
-}
+.list-action-btn:hover { background: #f7f5ff; }
 
-/* Notification box */
-.notification {
-  padding: 10px 12px;
-  border-radius: 6px;
-  margin-bottom: 12px;
-}
+/* done badge */
+.done-badge { background: #d9f7d9; color: #067306; padding: 3px 8px; font-size: 12px; border-radius: 4px; margin-left: 8px; }
 
-.notification.info { background: #e8f0ff; border: 1px solid #9fb8ff; color: #1b2330; }
-.notification.success { background: #e6ffef; border: 1px solid #63d28a; color: #1b2330; }
-.notification.error { background: #ffdddd; border: 1px solid #ff9b9b; color: #1b2330; }
+/* Notification style (if using class names instead of component colors) */
+.notification { padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; }
+.notification.info { background: #e8f0ff; border: 1px solid #9fb8ff; color: #111; }
+.notification.success { background: #e6ffef; border: 1px solid #63d28a; color: #111; }
+.notification.error { background: #ffdddd; border: 1px solid #ff9b9b; color: #111; }
 
-/* ---- Footer ---- */
-.footer {
-  margin-top: 32px;
-  color: var(--muted);
-  font-size: 13px;
-}
+/* Footer */
+.footer { margin-top: 32px; color: var(--muted); font-size: 13px; }
 
-/* ---- Accessibility / focus states ---- */
+/* Focus / accessibility */
 .tab-headers button:focus,
 .small-btn:focus,
 .submit-btn:focus {
-  outline: 3px solid rgba(102,62,210,0.12);
+  outline: 3px solid rgba(96,38,214,0.12);
   outline-offset: 2px;
 }
 
-/* ---- Responsive tweaks ---- */
-@media (max-width: 1100px) {
-  :root { --card-width: 320px; } /* slightly smaller cards for narrow screens */
+/* ===== Responsive tweaks ===== */
+
+/* Medium screens - reduce gaps and card preferred width */
+@media (max-width: 1000px) {
+  :root { --card-preferred: 320px; }
+  .forms-row { gap: 20px; }
+  .form-card { min-height: 420px; }
 }
 
-/* ===== Align forms row and lists panel to same exact width =====
-   Paste this at the end of src/App.css (replace earlier variants) */
-
-/* ensure consistent calculation */
-:root {
-  --card-full-width: calc(var(--card-width) * 3 + var(--card-gap) * 2);
+/* Small screens / phones - cards stack, lists full-width */
+@media (max-width: 640px) {
+  :root { --card-preferred: 100%; } /* allow cards to be full width */
+  .forms-row {
+    grid-template-columns: 1fr;  /* single column stack */
+    gap: 16px;
+    max-width: 100%;
+  }
+  .form-card { max-width: 100%; min-height: auto; }
+  .form-card .form-body { padding: 12px; }
+  .tab-headers { flex-direction: column; }
+  .tab-headers button { width: 100%; }
+  .tab-content { padding: 10px; }
 }
 
-/* Force the forms row to use the exact same total width as the three cards */
-.forms-row {
-  width: var(--card-full-width);
-  margin: 24px auto;           /* center on page like the lists panel */
-  gap: var(--card-gap);
-  display: flex;
-  justify-content: space-between; /* keep cards evenly spaced */
-  align-items: flex-start;
-  box-sizing: border-box;
+/* Very small screens - reduce typography slightly */
+@media (max-width: 420px) {
+  .app-header h1 { font-size: 22px; }
+  .submit-btn { padding: 10px; font-size: 14px; }
+  .form-card input, .form-card select { padding: 8px 10px; font-size: 13px; }
 }
 
-/* Make the lists wrapper the same width and remove the extra side padding */
-.lists-panel-wrapper {
-  width: var(--card-full-width);
-  margin: 18px auto 36px;
-  padding: 0;                  /* remove the 12px padding that made it narrower */
-  box-sizing: border-box;
-  max-width: none;             /* don't let earlier max-width limit it */
-}
-
-/* Make the tab header area stretch the full width of the wrapper */
-.lists-tabs {
+/* ===== Header centering fix: keep header same centered width as the content grid ===== */
+.app-header {
   width: 100%;
-  margin: 0;
-  padding-top: 14px;
+  max-width: calc(var(--card-preferred) * 3 + var(--card-gap) * 2);
+  margin: 0 auto 8px;   /* centers header and gives small bottom spacing */
+  text-align: center;   /* ensure subtitle/h1 are centered */
   box-sizing: border-box;
+  padding: 0 12px;      /* prevents very long titles from touching screen edges on small viewports */
 }
 
-/* tab content should be full width inside the lists area */
-.tab-content {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px;
+.app-header h1 {
+  margin: 0 0 6px 0;
+  line-height: 1.05;
+  text-align: center;
 }
 
-/* keep the tab headers buttons sharing available width */
-.tab-headers {
-  display: flex;
-  gap: 12px;
+/* Make sure the muted subtitle text is centered too */
+.app-header .muted {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
 }
-.tab-headers button { flex: 1 1 0; }
