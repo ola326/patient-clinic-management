@@ -29,7 +29,7 @@ export default function ClinicForm({ onAdd }) {
         <input placeholder="Clinic name" value={name} onChange={e => setName(e.target.value)} />
         <input placeholder="Address (optional)" value={address} onChange={e => setAddress(e.target.value)} />
         <input placeholder="Contact (optional)" value={contact} onChange={e => setContact(e.target.value)} />
-        <button type="submit">Add clinic</button>
+        <button type="submit" className="submit-btn">Add clinic</button>
       </div>
     </form>
   );

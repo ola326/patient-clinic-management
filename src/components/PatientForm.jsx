@@ -52,7 +52,7 @@ export default function PatientForm({ onAdd }) {
         <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
         <input placeholder="Age" value={age} onChange={e => setAge(e.target.value)} />
         <input placeholder="Phone (optional)" value={phone} onChange={e => setPhone(e.target.value)} />
-        <button type="submit">Add patient</button>
+        <button type="submit" className="submit-btn">Add patient</button>
       </div>
     </form>
   );

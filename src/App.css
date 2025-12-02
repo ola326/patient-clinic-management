@@ -1,261 +1,232 @@
+/* src/App.css — CLEANED & CONSOLIDATED
+   Replace your existing App.css with this file.
+   - Single source-of-truth variables for card sizing
+   - Consistent card layout (flex) so submit buttons align
+   - Tabs/lists width derived from same variables
+   - Utility classes for form grids / spacing
+*/
+
+/* ---- Design tokens / layout variables ---- */
+:root{
+  --page-max-width: 1280px;
+  --card-width: 340px;
+  --card-gap: 28px;
+  --card-min-height: 460px;
+  --accent: #6026d6;
+  --muted: #888;
+  --card-bg: #fff;
+  --page-bg: #f4f6f8;
+  --shadow-1: 0 6px 18px rgba(0,0,0,0.06);
+  --shadow-soft: 0 4px 14px rgba(0,0,0,0.03);
+  --radius-lg: 8px;
+}
+
+/* ---- Page wrapper / header ---- */
+:root, html, body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--page-bg);
+  color: #111;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
 #root {
-  max-width: 1280px;
+  max-width: var(--page-max-width);
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app-header h1 {
+  color: var(--accent);
+  margin: 0 0 4px 0;
+  font-weight: 800;
+  font-size: 28px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.app-header .muted {
+  color: var(--muted);
+  margin-top: 6px;
+  font-size: 14px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-/* container for the three cards */
-.forms-row {
-  display: flex;
-  gap: 28px;
-  justify-content: center;
-  align-items: flex-start;
-  margin: 24px 0;
-}
-
-/* the card */
+/* Each card */
 .form-card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  width: 320px;              /* adjust as needed */
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  width: var(--card-width) !important;
   display: flex;
-  flex-direction: column;    /* lets body grow and footer stick */
-  min-height: 460px;         /* uniform height for all cards */
+  flex-direction: column;
+  min-height: var(--card-min-height);
   padding: 20px;
+  box-sizing: border-box;
 }
 
-/* make form body fill available vertical space */
+/* Fills available card space and controls inner spacing */
 .form-card .form-body {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  padding: 18px;
+  box-sizing: border-box;
   overflow: auto;
 }
 
-/* submit button area pinned to bottom */
+/* Footer area of card (keeps footer pinned if used) */
 .form-card .form-footer {
   margin-top: 12px;
 }
 
-/* if your submit button width is full */
-.button-full {
-  width: 100%;
-  padding: 10px 14px;
-  border-radius: 6px;
-  background: #6026d6; color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-/* ---- Tabs layout: align with the three form cards and spread equally ---- */
-/* Container that limits tabs to the same width as the 3 form cards */
-.lists-tabs {
-  /* card width(320px) × 3 + gap(28px) × 2 = total forms width.
-     If you change card width or gap, update this calc. */
-  width: calc(320px * 3 + 28px * 2);
-  margin: 18px auto 0;     /* center under the forms row */
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: stretch;
-}
-
-/* header row: distribute buttons evenly */
-.tab-headers {
-  display: flex;
-  gap: 12px;
-  justify-content: space-between; /* space buttons across the full width */
-}
-
-/* make each tab share the space equally */
-.tab-headers button {
-  flex: 1 1 0;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #fff;
-  cursor: pointer;
-  text-align: center;
-  font-weight: 600;
-  color: #444;
-  /* remove underlines / focus outlines that look like a black bar */
-  text-decoration: none;
-  outline: none;
-  box-shadow: none;
-  transition: background 150ms, border-color 150ms, color 150ms;
-}
-
-/* spacing inside so adjcent buttons don't touch */
-.tab-headers button + button { margin-left: 8px; }
-
-/* active tab styling — black underline look by using bottom border */
-.tab-headers button.active {
-  background: #f8f5ff;
-  border-color: #b89af8;
-  color: #111;                       /* stronger text color */
-  box-shadow: none;
-  /* create a visible black underline */
-  border-bottom: 3px solid #000;
-  border-radius: 8px 8px 6px 6px;    /* make bottom border visible but not weird */
-}
-
-/* focus styling for keyboard accessibility */
-.tab-headers button:focus {
-  outline: 3px solid #e6dafc;
-  outline-offset: 2px;
-}
-
-/* tab content (list area) should stretch to same width too */
-.tab-content {
-  width: 100%;
-  padding: 8px 6px;
-  max-height: 160px;
-  overflow-y: auto;
-  background: transparent;
-  text-align: left;
-}
-
-/* === Tabs / Lists layout (keep this single block) ===
-   Align the tabs to the combined width of the three form-cards and
-   make the buttons share space equally.
+/* ---- Forms & inputs ----
+   Make <form> and the common wrapper behave as vertical flex columns
+   so the submit button can be pushed to the bottom with margin-top:auto.
 */
-.lists-panel-wrapper {
-  max-width: calc(340px * 3 + 28px * 2); /* match your card width & gap */
-  margin: 18px auto 36px;
-  padding: 0 12px;
-}
-
-.lists-tabs {
+.form-card .form-body form {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-top: 14px;
-  border-top: 1px solid #eee;
+  flex: 1 1 auto;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-/* header row: distribute buttons evenly across the width */
+/* Some forms use a nested <div> to wrap inputs — make it flex column too */
+.form-card .form-body form > div,
+.form-card .form-body form > .form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+}
+
+/* Utility grid (if you prefer grid for certain forms) */
+.form-grid {
+  display: grid;
+  gap: 8px;
+}
+
+/* Inputs, selects, and textareas */
+.form-card input,
+.form-card select,
+.form-card textarea {
+  padding: 10px 12px;
+  border: 1px solid #e6e6ea;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+/* Submit button style and alignment */
+.submit-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  align-self: stretch;
+}
+
+/* Ensure the submit button is pushed to the bottom of the form area */
+.form-card .form-body .submit-btn {
+  margin-top: auto;    /* pushes the button down so all buttons align */
+  margin-bottom: 6px;  /* small breathing space */
+}
+
+/* Tab header row */
 .tab-headers {
   display: flex;
   gap: 12px;
   justify-content: space-between;
 }
 
-/* each tab takes equal space */
 .tab-headers button {
   flex: 1 1 0;
-  background: #fff;
-  border: 1px solid #ddd;
   padding: 10px 12px;
   border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
   cursor: pointer;
   text-align: center;
   font-weight: 600;
-  color: #111;        /* make label text black */
+  color: #111;
   outline: none;
 }
 
-/* small spacing so adjacent buttons don't touch */
-.tab-headers button + button { margin-left: 8px; }
-
-/* active tab: visible black underline and stronger text */
+/* Active tab visual */
 .tab-headers button.active {
   background: #fff;
   border-color: #222;
   color: #000;
   box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-  border-bottom: 3px solid #000;   /* visible black underline */
+  border-bottom: 3px solid #000;
   border-radius: 8px 8px 6px 6px;
 }
 
-/* list content box that appears below the tabs */
+/* Content area that appears under the tabs */
 .tab-content {
   margin-top: 12px;
   background: #fff;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   padding: 10px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+  box-shadow: var(--shadow-soft);
   min-height: 140px;
   text-align: left;
+  box-sizing: border-box;
 }
 
-/* Make small action buttons (delete, complete, edit) readable */
-.small-btn,
-.list-action-btn {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #bbb;
+/* ---- Lists and items styling ---- */
+.lists-panel-wrapper .list-card {
   background: #fff;
-  cursor: pointer;
+  border-radius: 8px;
+  padding: 14px;
+  box-shadow: var(--shadow-soft);
+  margin-top: 12px;
+}
+
+/* patient/clinic list items */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.patient-item,
+.clinic-item,
+.appointment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.patient-item strong,
+.clinic-item strong {
+  display: block;
+}
+
+.patient-item .meta,
+.clinic-item .meta,
+.appointment-item .meta {
   font-size: 13px;
-  color: #000;        /* ensure the text is black */
+  color: #666;
 }
 
-/* hover for small buttons */
-.small-btn:hover,
-.list-action-btn:hover {
-  background: #f7f5ff;
-}
-
-/* keep form-body filling space */
-.form-card .form-body {
-  flex: 1 1 auto;
-}
-
-/* Completed appointments appear greyed-out & crossed out */
-.appointment-item.completed .appt-main {
-  text-decoration: line-through;
-  color: #999;
-}
-
-.appointment-item.completed .appt-meta {
-  color: #bbb;
-}
-
+/* Completed appointment styles */
 .appointment-item.completed {
   opacity: 0.6;
   background: #f7f7f7;
   border-radius: 6px;
-}
-
-/* Action buttons for completed items still visible */
-.appointment-item.completed .list-action-btn {
-  color: #000;
-  border-color: #bbb;
+  padding: 8px;
 }
 
 .done-badge {
@@ -266,3 +237,101 @@
   border-radius: 4px;
   margin-left: 8px;
 }
+
+/* Small action buttons */
+.small-btn,
+.list-action-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  color: #000;
+}
+
+.small-btn:hover,
+.list-action-btn:hover {
+  background: #f7f5ff;
+}
+
+/* Notification box */
+.notification {
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.notification.info { background: #e8f0ff; border: 1px solid #9fb8ff; color: #1b2330; }
+.notification.success { background: #e6ffef; border: 1px solid #63d28a; color: #1b2330; }
+.notification.error { background: #ffdddd; border: 1px solid #ff9b9b; color: #1b2330; }
+
+/* ---- Footer ---- */
+.footer {
+  margin-top: 32px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---- Accessibility / focus states ---- */
+.tab-headers button:focus,
+.small-btn:focus,
+.submit-btn:focus {
+  outline: 3px solid rgba(102,62,210,0.12);
+  outline-offset: 2px;
+}
+
+/* ---- Responsive tweaks ---- */
+@media (max-width: 1100px) {
+  :root { --card-width: 320px; } /* slightly smaller cards for narrow screens */
+}
+
+/* ===== Align forms row and lists panel to same exact width =====
+   Paste this at the end of src/App.css (replace earlier variants) */
+
+/* ensure consistent calculation */
+:root {
+  --card-full-width: calc(var(--card-width) * 3 + var(--card-gap) * 2);
+}
+
+/* Force the forms row to use the exact same total width as the three cards */
+.forms-row {
+  width: var(--card-full-width);
+  margin: 24px auto;           /* center on page like the lists panel */
+  gap: var(--card-gap);
+  display: flex;
+  justify-content: space-between; /* keep cards evenly spaced */
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+/* Make the lists wrapper the same width and remove the extra side padding */
+.lists-panel-wrapper {
+  width: var(--card-full-width);
+  margin: 18px auto 36px;
+  padding: 0;                  /* remove the 12px padding that made it narrower */
+  box-sizing: border-box;
+  max-width: none;             /* don't let earlier max-width limit it */
+}
+
+/* Make the tab header area stretch the full width of the wrapper */
+.lists-tabs {
+  width: 100%;
+  margin: 0;
+  padding-top: 14px;
+  box-sizing: border-box;
+}
+
+/* tab content should be full width inside the lists area */
+.tab-content {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+}
+
+/* keep the tab headers buttons sharing available width */
+.tab-headers {
+  display: flex;
+  gap: 12px;
+}
+.tab-headers button { flex: 1 1 0; }

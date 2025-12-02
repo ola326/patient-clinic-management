@@ -46,7 +46,7 @@ export default function AppointmentForm({ patients = [], clinics = [], onAdd }) 
 
         <input type="datetime-local" value={date} onChange={e => setDate(e.target.value)} />
         <input placeholder="Reason (optional)" value={reason} onChange={e => setReason(e.target.value)} />
-        <button type="submit">Add appointment</button>
+        <button type="submit" className="submit-btn">Add appointment</button>
       </div>
     </form>
   );
